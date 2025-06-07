@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Language } from 'lucide-react';
+import { Languages } from 'lucide-react';
 
 interface LanguageOption {
   code: string;
@@ -58,7 +58,7 @@ const LanguageSettings: React.FC = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
-          <Language className="w-5 h-5" />
+          <Languages className="w-5 h-5" />
           <span>Налаштування мов</span>
         </CardTitle>
         <CardDescription>
