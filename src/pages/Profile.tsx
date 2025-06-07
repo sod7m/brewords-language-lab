@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -7,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Layout from '@/components/Layout/Layout';
 import { BookOpen, User, Camera } from 'lucide-react';
 import AvatarModal from '@/components/Profile/AvatarModal';
+import CategoryStats from '@/components/Profile/CategoryStats';
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
@@ -86,29 +88,18 @@ const Profile: React.FC = () => {
             </Card>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-            <Card>
-              <CardHeader className="text-center py-4 md:py-6">
-                <CardTitle className="text-2xl md:text-3xl font-bold text-brewords-blue">125</CardTitle>
-                <CardDescription className="text-sm md:text-base">Вивчено слів</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card>
-              <CardHeader className="text-center py-4 md:py-6">
-                <CardTitle className="text-2xl md:text-3xl font-bold text-brewords-accent">8</CardTitle>
-                <CardDescription className="text-sm md:text-base">Пройдено уроків</CardDescription>
-              </CardHeader>
-            </Card>
-
-            <Card>
-              <CardHeader className="text-center py-4 md:py-6">
-                <CardTitle className="text-2xl md:text-3xl font-bold text-brewords-blue-dark">15</CardTitle>
-                <CardDescription className="text-sm md:text-base">Днів підряд</CardDescription>
-              </CardHeader>
-            </Card>
-          </div>
+          {/* Category Statistics */}
+          <Card className="mb-6 md:mb-8">
+            <CardHeader>
+              <CardTitle className="text-xl md:text-2xl">Ваша статистика</CardTitle>
+              <CardDescription>
+                Відстежуйте свій прогрес у вивченні слів та складанні речень
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CategoryStats />
+            </CardContent>
+          </Card>
 
           {/* Avatar Modal */}
           <AvatarModal 

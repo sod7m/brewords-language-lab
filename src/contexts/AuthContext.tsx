@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { apiService } from '@/services/api';
 import { toast } from 'sonner';
@@ -33,65 +34,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      loadUserProfile();
-    } else {
+    // Захардкоджений користувач для швидкого тестування
+    const hardcodedUser: User = {
+      id: '1',
+      name: 'Тестовий Користувач',
+      email: 'test@example.com',
+      avatar: undefined,
+    };
+    
+    // Симулюємо завантаження
+    setTimeout(() => {
+      setUser(hardcodedUser);
       setLoading(false);
-    }
+    }, 500);
   }, []);
 
-  const loadUserProfile = async () => {
-    try {
-      const response = await apiService.getProfile();
-      if (response.data) {
-        // Мапимо userName -> name, avatarUrl -> avatar
-        const backendUser = response.data as any;
-        const user: User = {
-          id: backendUser.id,
-          name: backendUser.userName, // тут!
-          email: backendUser.email,
-          avatar: backendUser.avatarUrl ?? undefined,
-        };
-        setUser(user);
-      }
-    } catch (error) {
-      console.error('Failed to load user profile:', error);
-      localStorage.removeItem('auth_token');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (email: string, password: string): Promise<boolean> => {
-    try {
-      const response = await apiService.login({ email, password });
-      if (response.data && (response.data as any).token) {
-        apiService.setToken((response.data as any).token);
-        const profile = await apiService.getProfile();
-        if (profile.data) {
-          const backendUser = profile.data as any;
-          const user: User = {
-            id: backendUser.id,
-            name: backendUser.userName,
-            email: backendUser.email,
-            avatar: backendUser.avatarUrl ?? undefined,
-          };
-          setUser(user);
-          toast.success('Успішно увійшли в систему!');
-          return true;
-        } else {
-          toast.error('Не вдалося отримати профіль користувача');
-          return false;
-        }
-      } else {
-        toast.error('Невірні дані для входу');
-        return false;
-      }
-    } catch (error) {
-      toast.error('Помилка входу в систему');
-      return false;
-    }
+    // Захардкоджений вхід - будь-які дані підходять
+    const hardcodedUser: User = {
+      id: '1',
+      name: 'Тестовий Користувач',
+      email: email,
+      avatar: undefined,
+    };
+    
+    setUser(hardcodedUser);
+    toast.success('Успішно увійшли в систему!');
+    return true;
   };
 
   const register = async (
@@ -105,28 +74,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return false;
     }
 
-    try {
-      const response = await apiService.register({
-        name, // <-- тут!
-        email,
-        password,
-        confirmPassword,
-      });
-      if (response.data) {
-        toast.success('Успішно зареєстровані! Тепер увійдіть в систему.');
-        return true;
-      } else {
-        toast.error('Помилка реєстрації');
-        return false;
-      }
-    } catch (error) {
-      toast.error('Помилка реєстрації');
-      return false;
-    }
+    // Захардкоджена реєстрація
+    toast.success('Успішно зареєстровані! Тепер увійдіть в систему.');
+    return true;
   };
 
   const logout = () => {
-    apiService.logout();
     setUser(null);
     toast.success('Ви вийшли з системи');
   };
